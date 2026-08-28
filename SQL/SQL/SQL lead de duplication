@@ -1,0 +1,6 @@
+-- Remove duplicate leads by phone number
+WITH ranked_leads AS (
+  SELECT *, ROW_NUMBER() OVER(PARTITION BY phone ORDER BY created_date DESC) as rn
+  FROM raw_leads
+)
+SELECT * FROM ranked_leads WHERE rn = 1;
